@@ -156,7 +156,7 @@ while run:
         TIMESTEP = 3600 * 24
     for planet in planets:
         planet.update_position(planets)
-        planet.draw_planet(screen)
+        planet.draw_planet(screen) 
 
     display_data(screen)
     pygame.display.update()
