@@ -8,6 +8,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Planet simulator")
 
 request = requests.get("http://api.open-notify.org/astros.json")
+requests = requests.get("https://api.wheretheiss.at/v1/satellites/25544")
+
+data_space_craft = requests.json()
 data = request.json()
 
 background = pygame.image.load("backgroundSpace.jpg")
@@ -35,7 +38,7 @@ AU = 149.6e6 * 1000
 SCALE = 120 / AU
 TIMESTEP = 3600 * 24  # seconds in day
 
-FONT = pygame.font.SysFont("comicsansms", 13)
+FONT = pygame.font.SysFont("comicsansms", 15)
 
 
 class Planet:
@@ -108,13 +111,25 @@ class Planet:
 def display_data(window):
     num_people_in_space = data['number']
     list_of_data = data['people']
-    peoples_name = """"""
+    peoples_name = ""
     for info in list_of_data:
         peoples_name += info['name'] + " "
 
+    name = data_space_craft['name']
+    position_lat = round(data_space_craft['latitude'])
+    position_long = round(data_space_craft['longitude'])
+    space_craft_alt = round(data_space_craft['altitude'])
+    space_craft_vel = round(data_space_craft['velocity'])
+
+    space_craft_data_text = f"Name: {name} Latitude: {position_lat} Longitude: {position_long} Altitude: {space_craft_alt}km Velocity: {space_craft_vel}km/h "
+
     num_people = FONT.render(f"Current people in space: {num_people_in_space}", True, GREEN)
+
+    space_craft_data = FONT.render(space_craft_data_text, True, GREEN)
+
     names = FONT.render(f"Astronauts: {peoples_name}", True, GREEN)
     screen.blit(num_people, (0, 0))
+    screen.blit(space_craft_data, (0, 40))
     screen.blit(names, (0, 20))
 
 
@@ -156,7 +171,7 @@ while run:
         TIMESTEP = 3600 * 24
     for planet in planets:
         planet.update_position(planets)
-        planet.draw_planet(screen) 
+        planet.draw_planet(screen)
 
     display_data(screen)
     pygame.display.update()
