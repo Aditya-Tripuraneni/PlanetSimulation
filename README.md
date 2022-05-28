@@ -24,4 +24,6 @@ import requests
 - Application of highshool physics
 - wheretheiss API
 - open-notify API
+
+
 This project taught me how to implement some basic highschool physics learned with how large bodies interact with each other. I also learned how to work with a space API where I could fetch data on how many people are in space. I was also able to become more comfortable with Pythons "requests" module.
